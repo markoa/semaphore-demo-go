@@ -1,0 +1,26 @@
+version: v1.0
+name: Deployment
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+global_job_config:
+  prologue:
+    commands:
+      - echo "preparing to run"
+blocks:
+  - name: 'Block #1'
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands:
+            - echo "job 1"
+          parallelism: 2
+  - name: 'Block #2'
+    task:
+      secrets:
+        - name: markoa-dockerhub
+      jobs:
+        - name: 'Job #1'
+          commands:
+            - echo "final deploy"
